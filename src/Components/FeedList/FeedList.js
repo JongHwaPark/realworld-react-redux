@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import {Feed} from '../Feed';
 import agent from '../../agent';
 import classNames from 'classnames/bind';
 import styles from './FeedList.module.scss';
+import * as articlesActions from '../../store/modules/articles';
 const cx = classNames.bind(styles);
 
 function FeedTab(){
@@ -15,24 +17,32 @@ function FeedTab(){
 }
 
 function Feeds(){
+    const feedList = useSelector(state => state.articles.articles);
+    console.log(feedList);
     return (
         <article>
-            <Feed/>
-            <Feed/>
-            <Feed/>
-            <Feed/>
-            <Feed/>
+            {
+                feedList.map(data =>
+                    <Feed
+                        name={data.author.username}
+                        title={data.title}
+                        time={data.createdAt}
+                        content={data.description}
+                        favoritesCount={data.favoritesCount}
+                    />
+                )}
         </article>
     );
 }
 
 function FeedList({className}){
-    useEffect(()=>{
+    const dispatch = useDispatch();
 
+    useEffect(()=>{
         const fetchData = async ()=>{
             const response = await agent.Articles.feed();
             const data = await response.json();
-            console.log(data);
+            dispatch(articlesActions.setArticles(data));
         };
         fetchData();
     },[]);

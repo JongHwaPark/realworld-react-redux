@@ -4,19 +4,19 @@ import styles from './Feed.module.scss';
 const cx = classNames.bind(styles);
 
 
-function Feed({className}){
+function Feed({name, time, title, content, favoritesCount, className}){
     return (
         <div className={cx('Feed',className)}>
             <div className={cx('feed-top')}>
                 <ul>
-                    <li>Park Park</li>
-                    <li>Tue Mar 09 2021</li>
+                    <li>{name}</li>
+                    <li>{time}</li>
                 </ul>
-                <button>0</button>
+                <button>{favoritesCount}</button>
             </div>
             <div className={cx('feed-bottom')}>
-                <h4>TItle</h4>
-                <div>content</div>
+                <h4>{title}</h4>
+                <div>{content}</div>
                 <a href={''}>Read More...</a>
             </div>
         </div>

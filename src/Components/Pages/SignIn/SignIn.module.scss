@@ -1,0 +1,13 @@
+.layout{
+
+  .content{
+    display: flex;
+    .feedList{
+      width: 70%;
+    }
+    .tags{
+      padding-left: 5%;
+      flex: 1;
+    }
+  }
+}

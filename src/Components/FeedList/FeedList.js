@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react';
+import { useSelector } from 'react-redux'
 import {Feed} from '../Feed';
-import agent from '../../agent';
 import classNames from 'classnames/bind';
 import styles from './FeedList.module.scss';
-import * as articlesActions from '../../store/modules/articles';
 const cx = classNames.bind(styles);
 
 function FeedTab(){
@@ -16,41 +14,34 @@ function FeedTab(){
     );
 }
 
-function Feeds(){
+function Feeds({onClickFavorite}){
     const feedList = useSelector(state => state.articles.articles);
-    console.log(feedList);
     return (
         <article>
             {
-                feedList.map(data =>
+                feedList.map((data, index) =>
                     <Feed
+                        key={index}
+                        slug={data.slug}
                         name={data.author.username}
                         title={data.title}
                         time={data.createdAt}
                         content={data.description}
                         favoritesCount={data.favoritesCount}
+                        onClickFavorite={onClickFavorite}
                     />
                 )}
         </article>
     );
 }
 
-function FeedList({className}){
-    const dispatch = useDispatch();
-
-    useEffect(()=>{
-        const fetchData = async ()=>{
-            const response = await agent.Articles.feed();
-            const data = await response.json();
-            dispatch(articlesActions.setArticles(data));
-        };
-        fetchData();
-    },[]);
-
+function FeedList({className, onClickFavorite}){
     return (
         <div className={cx('FeedList',className)}>
             <FeedTab />
-            <Feeds />
+            <Feeds
+                onClickFavorite={onClickFavorite}
+            />
         </div>
     );
 }

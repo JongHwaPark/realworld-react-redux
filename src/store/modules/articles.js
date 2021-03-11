@@ -14,7 +14,6 @@ export default handleActions({
         return {
             articles: payload.articles,
             articlesCount: payload.articlesCount,
-
         }
     }
 }, initState);

@@ -9,8 +9,8 @@ function FeedListContainer({className}){
     const dispatch = useDispatch();
 
     const fetchData = useCallback(async ()=>{
-        const response = await agent.Articles.feed();
-        const data = await response.json();
+        const data = await agent.Articles.feed();
+        console.log(data);
         dispatch(articlesActions.setArticles(data));
     },[dispatch]);
     useEffect(()=>{
@@ -18,11 +18,8 @@ function FeedListContainer({className}){
     },[fetchData]);
 
     const handleClickFavorite = async (slug) => {
-        console.log(slug);
         const response = await agent.Articles.favorite(slug);
-        console.log(response);
         const data = await response.json();
-        console.log(data);
     };
 
     return (
